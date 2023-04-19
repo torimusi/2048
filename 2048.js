@@ -53,6 +53,10 @@ document.addEventListener("keyup", (e) => { //キーが離された時
         slideLeft();
     } else if (e.code == "ArrowRight") {
         slideRight();
+    } else if (e.code == "ArrowUp") {
+        slideUp();
+    } else if (e.code == "ArrowDown") {
+        slideDown();
     }
 })
 
@@ -110,6 +114,42 @@ function slideRight() {
         board[r] = row;
 
         for (let c = 0; c < columns; c++) {
+            let tile = document.getElementById(r.toString() + "-" + c.toString());
+            let num = board[r][c];
+            updateTile(tile, num);
+        }
+    }
+}
+
+function slideUp() {
+    //各列ずつ上にスライドする
+    for (let c = 0; c < columns; c++) {
+        //タイルの並びを転置させる
+        let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
+        row = slide(row);
+
+        //各列の各タイルのスライド結果を反映する
+        for (let r = 0; r < rows; r++) {
+            board[r][c] = row[r]; //スライド後、対応するよう列に数字を代入する
+            let tile = document.getElementById(r.toString() + "-" + c.toString());
+            let num = board[r][c];
+            updateTile(tile, num);
+        }
+    }
+}
+
+function slideDown() {
+    //各列ずつ上にスライドする
+    for (let c = 0; c < columns; c++) {
+        //タイルの並びを転置させる
+        let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
+        row.reverse();
+        row = slide(row);
+        row.reverse();
+
+        //各列の各タイルのスライド結果を反映する
+        for (let r = 0; r < rows; r++) {
+            board[r][c] = row[r]; //スライド後、対応するよう列に数字を代入する
             let tile = document.getElementById(r.toString() + "-" + c.toString());
             let num = board[r][c];
             updateTile(tile, num);
